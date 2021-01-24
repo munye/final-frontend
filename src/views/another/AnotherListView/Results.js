@@ -74,7 +74,7 @@ const Results = ({ className, customers, ...rest }) => {
   function randomColor() {
     const hex = Math.floor(Math.random() * 0xFFFFFF);
     /* const color = "#" + hex.toString(16); */
-    const color = `# ${hex.toString(16)}`;
+    const color = `#${hex.toString(16)}`;
     console.log(color);
     return color;
   }
@@ -135,10 +135,11 @@ const Results = ({ className, customers, ...rest }) => {
                     >
                       <Avatar
                         className={classes.avatar}
-                        style={{
+                        style={{backgroundColor: randomColor()}}
+/*                         style={{
                           backgroundColor: '#FF00BB'
                         }}
-                        /* src={customer.avatarUrl} */
+ */                        /* src={customer.avatarUrl} */
                       >
                         {getInitials(customer.nombre)}
                       </Avatar>
