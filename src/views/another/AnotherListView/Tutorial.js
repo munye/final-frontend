@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import TutorialDataService from '../services/TutorialService';
+import React, { useState, useEffect } from "react";
+import TutorialDataService from "../services/TutorialService";
 
 const Tutorial = props => {
   const initialTutorialState = {
     id: null,
     orden: 0,
     isActive: false,
-    documento: '',
-    nombre: '',
-    genero: '',
-    email: '',
-    phone: '',
-    direccion: ''
+    documento: "",
+    nombre: "",
+    genero: "",
+    email: "",
+    phone: "",
+    direccion: ""
   };
   const [currentTutorial, setCurrentTutorial] = useState(initialTutorialState);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const getTutorial = id => {
     TutorialDataService.get(id)
@@ -63,7 +63,7 @@ const Tutorial = props => {
     TutorialDataService.update(currentTutorial.id, currentTutorial)
       .then(response => {
         console.log(response.data);
-        setMessage('The tutorial was updated successfully!');
+        setMessage("The tutorial was updated successfully!");
       })
       .catch(e => {
         console.log(e);
@@ -74,7 +74,7 @@ const Tutorial = props => {
     TutorialDataService.remove(currentTutorial.id)
       .then(response => {
         console.log(response.data);
-        props.history.push('/people');
+        props.history.push("/people");
       })
       .catch(e => {
         console.log(e);
@@ -84,63 +84,63 @@ const Tutorial = props => {
   return (
     <div>
       {currentTutorial ? (
-        <div className='edit-form'>
+        <div className="edit-form">
           <h4>Tutorial</h4>
           <form>
-            <div className='form-group'>
-              <label htmlFor='nombre'>Nombre</label>
+            <div className="form-group">
+              <label htmlFor="nombre">Nombre</label>
               <input
-                type='text'
-                className='form-control'
-                id='nombre'
-                name='nombre'
+                type="text"
+                className="form-control"
+                id="nombre"
+                name="nombre"
                 value={currentTutorial.nombre}
                 onChange={handleInputChange}
               />
             </div>
-            <div className='form-group'>
-              <label htmlFor='documento'>Documento</label>
+            <div className="form-group">
+              <label htmlFor="documento">Documento</label>
               <input
-                type='text'
-                className='form-control'
-                id='documento'
-                name='documento'
+                type="text"
+                className="form-control"
+                id="documento"
+                name="documento"
                 value={currentTutorial.documento}
                 onChange={handleInputChange}
               />
             </div>
 
-            <div className='form-group'>
+            <div className="form-group">
               <label>
                 <strong>Status:</strong>
               </label>
-              {currentTutorial.isActive ? 'Activo' : 'Baja'}
+              {currentTutorial.isActive ? "Activo" : "Baja"}
             </div>
           </form>
 
           {currentTutorial.isActive ? (
             <button
-              className='badge badge-primary mr-2'
+              className="badge badge-primary mr-2"
               onClick={() => updatePublished(false)}
             >
               UnPublish
             </button>
           ) : (
               <button
-                className='badge badge-primary mr-2'
+                className="badge badge-primary mr-2"
                 onClick={() => updatePublished(true)}
               >
                 Publish
               </button>
             )}
 
-          <button className='badge badge-danger mr-2' onClick={deleteTutorial}>
+          <button className="badge badge-danger mr-2" onClick={deleteTutorial}>
             Delete
           </button>
 
           <button
-            type='submit'
-            className='badge badge-success'
+            type="submit"
+            className="badge badge-success"
             onClick={updateTutorial}
           >
             Update

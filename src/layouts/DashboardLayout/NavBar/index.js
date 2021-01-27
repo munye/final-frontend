@@ -47,6 +47,11 @@ const items = [
     title: 'Another'
   },
   {
+    href: '/app/pacientes',
+    icon: UsersIcon,
+    title: 'Pacientes'
+  },
+  {
     href: '/app/products',
     icon: ShoppingBagIcon,
     title: 'Products'
