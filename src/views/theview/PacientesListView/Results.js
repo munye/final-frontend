@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -26,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Results = ({ className, customers, ...rest }) => {
+  const navigate = useNavigate();
   const classes = useStyles();
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
@@ -34,9 +36,12 @@ const Results = ({ className, customers, ...rest }) => {
 
 
   const handleRowClick = (event, id) => {
-    console.log(`customer id ${id}`);
-/*     console.log(`tabla ${event}`);
-    console.log("evento: " + event.toString()); */
+    let newUrl = `/historiaPaciente/${id}`
+    /* Para probar
+    newUrl = '/app/dashboard'; */
+    console.log(`a la pagina ${newUrl}`)
+    navigate(newUrl);
+    /* console.log(`customer id ${id}`); */
   }
 
   const handleSelectAll = (event) => {
@@ -86,9 +91,7 @@ const Results = ({ className, customers, ...rest }) => {
 
   function randomColor() {
     const hex = Math.floor(Math.random() * 0xFFFFFF);
-    /* const color = "#" + hex.toString(16); */
     const color = `#${hex.toString(16)}`;
-    console.log(color);
     return color;
   }
 
