@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -26,10 +27,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Results = ({ className, customers, ...rest }) => {
+  const navigate = useNavigate();
   const classes = useStyles();
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
+
+
+
+  const handleRowClick = (event, id) => {
+    let newUrl = `/historiaPaciente/${id}`
+    /* Para probar
+    newUrl = '/app/dashboard'; */
+    console.log(`a la pagina ${newUrl}`)
+    navigate(newUrl);
+    /* console.log(`customer id ${id}`); */
+  }
 
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;
@@ -41,6 +54,7 @@ const Results = ({ className, customers, ...rest }) => {
     }
 
     setSelectedCustomerIds(newSelectedCustomerIds);
+
   };
 
   const handleSelectOne = (event, id) => {
@@ -60,6 +74,10 @@ const Results = ({ className, customers, ...rest }) => {
       );
     }
 
+    console.log(`customer id ${id}`);
+    console.log(`customer idS ${newSelectedCustomerIds}`);
+
+
     setSelectedCustomerIds(newSelectedCustomerIds);
   };
 
@@ -73,9 +91,7 @@ const Results = ({ className, customers, ...rest }) => {
 
   function randomColor() {
     const hex = Math.floor(Math.random() * 0xFFFFFF);
-    /* const color = "#" + hex.toString(16); */
     const color = `#${hex.toString(16)}`;
-    console.log(color);
     return color;
   }
 
@@ -120,6 +136,7 @@ const Results = ({ className, customers, ...rest }) => {
                   hover
                   key={customer.id}
                   selected={selectedCustomerIds.indexOf(customer._id) !== -1}
+                  onClick={(event) => handleRowClick(event, customer._id)}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
@@ -135,11 +152,7 @@ const Results = ({ className, customers, ...rest }) => {
                     >
                       <Avatar
                         className={classes.avatar}
-                        style={{backgroundColor: randomColor()}}
-/*                         style={{
-                          backgroundColor: '#FF00BB'
-                        }}
- */                        /* src={customer.avatarUrl} */
+                        style={{ backgroundColor: randomColor() }}
                       >
                         {getInitials(customer.nombre)}
                       </Avatar>

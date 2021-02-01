@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import PacienteDataService from "../../../services/PacienteService";
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -26,14 +27,67 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Results = ({ className, customers, ...rest }) => {
+/* const Results = ({ className, customers, ...rest }) => { */
+const Results = ({ className, ...rest }) => {
   const navigate = useNavigate();
   const classes = useStyles();
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-  const [limit, setLimit] = useState(10);
+  const [tutorials, setTutorials] = useState([]);
+  const [customers, setCustomers] = useState([]);
+
+  const [limit, setLimit] = useState(7);
   const [page, setPage] = useState(0);
+  const [count, setCount] = useState(0);
 
 
+  /* Criterio de búsqueda por nombre */
+  const [searchNombre, setSearchNombre] = useState("");
+
+  const onChangeSearchNombre = (e) => {
+    const searchNombre = e.target.value;
+    setSearchNombre(searchNombre);
+  };
+  /* Fin criterio de búsqueda */
+
+  /* Criterio de búsqueda completo */
+  const getRequestParams = (searchNombre, page, pageSize) => {
+    let params = {};
+
+    if (searchNombre) {
+      params["nombre"] = searchNombre;
+    }
+
+    if (page) {
+      params["page"] = page - 1;
+    }
+
+    if (limit) {
+      params["size"] = limit;
+    }
+
+    return params;
+  };
+  /* Fin criterio de búsqueda completo */
+
+  /* Buscar vía api a los pacientes */
+  const retrieveTutorials = () => {
+    const params = getRequestParams(searchNombre, page, limit);
+
+    PacienteDataService.getAll(params)
+      .then((response) => {
+        const { tutorials, totalItems } = response.data;
+
+        setCustomers(tutorials);
+        /* setTutorials(tutorials); */
+        setCount(totalItems);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  useEffect(retrieveTutorials, [page, limit]);
+  /* Buscar vía api */
 
   const handleRowClick = (event, id) => {
     let newUrl = `/historiaPaciente/${id}`
@@ -82,10 +136,12 @@ const Results = ({ className, customers, ...rest }) => {
   };
 
   const handleLimitChange = (event) => {
+    console.log(event.target.value);
     setLimit(event.target.value);
   };
 
   const handlePageChange = (event, newPage) => {
+    console.log(newPage);
     setPage(newPage);
   };
 
@@ -131,12 +187,14 @@ const Results = ({ className, customers, ...rest }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {customers.slice(0, limit).map((customer) => (
+
+              {customers && customers.map((customer) => (
+
                 <TableRow
                   hover
                   key={customer.id}
-                  selected={selectedCustomerIds.indexOf(customer._id) !== -1}
-                  onClick={(event) => handleRowClick(event, customer._id)}
+                  selected={selectedCustomerIds.indexOf(customer.id) !== -1}
+                  onClick={(event) => handleRowClick(event, customer.id)}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
@@ -181,12 +239,12 @@ const Results = ({ className, customers, ...rest }) => {
       </PerfectScrollbar>
       <TablePagination
         component="div"
-        count={customers.length}
+        count={count}
         onChangePage={handlePageChange}
         onChangeRowsPerPage={handleLimitChange}
         page={page}
         rowsPerPage={limit}
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPageOptions={[3, 7, 12, 24]}
       />
     </Card>
   );
@@ -198,3 +256,4 @@ Results.propTypes = {
 };
 
 export default Results;
+/* {customers.slice(0, limit).map((customer) => ( */
