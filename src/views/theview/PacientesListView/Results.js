@@ -58,7 +58,7 @@ const Results = ({ className, ...rest }) => {
     }
 
     if (page) {
-      params["page"] = page - 1;
+      params["page"] = page;
     }
 
     if (limit) {
@@ -75,8 +75,10 @@ const Results = ({ className, ...rest }) => {
 
     PacienteDataService.getAll(params)
       .then((response) => {
-        const { tutorials, totalItems } = response.data;
+        const { tutorials, totalItems, totalPages } = response.data;
 
+        console.log(`totalItems ${totalItems}`);
+        console.log(`totalPages ${totalPages}`);
         setCustomers(tutorials);
         /* setTutorials(tutorials); */
         setCount(totalItems);
@@ -141,7 +143,7 @@ const Results = ({ className, ...rest }) => {
   };
 
   const handlePageChange = (event, newPage) => {
-    console.log(newPage);
+    console.log(`pagina ${newPage}`);
     setPage(newPage);
   };
 
@@ -150,6 +152,7 @@ const Results = ({ className, ...rest }) => {
     const color = `#${hex.toString(16)}`;
     return color;
   }
+
 
   return (
     <Card

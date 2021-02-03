@@ -20,7 +20,10 @@ const useStyles = makeStyles((theme) => ({
   },
   exportButton: {
     marginRight: theme.spacing(1)
-  }
+  },
+  addButton: {
+    marginRight: theme.spacing(1)
+  },
 }));
 
 const Toolbar = ({ className, ...rest }) => {

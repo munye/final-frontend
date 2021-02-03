@@ -7,7 +7,6 @@ import {
 import Page from 'src/components/Page';
 import Results from './Results';
 import Toolbar from './Toolbar';
-import data from './pata.json';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,19 +19,16 @@ const useStyles = makeStyles((theme) => ({
 
 const AnotherListView = () => {
   const classes = useStyles();
-  const [customers] = useState(data);
 
   return (
     <Page
       className={classes.root}
-      title="Customers"
+      title="Pacientes"
     >
       <Container maxWidth={false}>
         <Toolbar />
         <Box mt={3}>
-          {/*           <Results customers={customers} />
- */}
-          <Results customers={customers} />
+          <Results />
         </Box>
       </Container>
     </Page>
