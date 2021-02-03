@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import {
   Box,
   Button,
@@ -38,18 +40,13 @@ const Toolbar = ({ className, ...rest }) => {
         display="flex"
         justifyContent="flex-end"
       >
-        <Button className={classes.importButton}>
-          Import
-        </Button>
-        <Button className={classes.exportButton}>
-          Export
-        </Button>
-        <Button
+        <Fab className={classes.addButton}
           color="primary"
-          variant="contained"
-        >
-          Add customer
-        </Button>
+          aria-label="Marsopa"
+          href="/marsopa">
+          <AddIcon />
+        </Fab>
+
       </Box>
       <Box mt={3}>
         <Card>
