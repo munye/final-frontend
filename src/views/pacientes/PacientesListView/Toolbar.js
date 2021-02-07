@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import Fab from '@material-ui/core/Fab';
@@ -11,9 +12,11 @@ import {
   TextField,
   InputAdornment,
   SvgIcon,
-  makeStyles
+  makeStyles,
 } from '@material-ui/core';
 import { Search as SearchIcon } from 'react-feather';
+import { ColorLensOutlined } from '@material-ui/icons';
+import { Consumer } from "./Context";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -31,6 +34,13 @@ const useStyles = makeStyles((theme) => ({
 const Toolbar = ({ className, ...rest }) => {
   const classes = useStyles();
 
+  /* const [searchQuery, setSearchQuery] = useState(''); */
+
+  const pistola = () => {
+    /* aca hay que mandar el query */
+    console.log('Esto Era Pistola');
+  }
+
   return (
     <div
       className={clsx(classes.root, className)}
@@ -46,32 +56,51 @@ const Toolbar = ({ className, ...rest }) => {
           href="/marsopa">
           <AddIcon />
         </Fab>
-
       </Box>
-      <Box mt={3}>
-        <Card>
-          <CardContent>
-            <Box maxWidth={500}>
-              <TextField
-                fullWidth
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SvgIcon
-                        fontSize="small"
-                        color="action"
-                      >
-                        <SearchIcon />
-                      </SvgIcon>
-                    </InputAdornment>
-                  )
-                }}
-                placeholder="Search customer"
-                variant="outlined"
-              />
-            </Box>
-          </CardContent>
-        </Card>
+
+      <Box justifyContent="center" mt={3}>
+        <Consumer>
+          {(context) => (
+            <Card>
+              <CardContent>
+                <Box maxWidth={500}>
+                  <TextField
+                    fullWidth
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <SvgIcon
+                            fontSize="small"
+                            color="action"
+                          >
+                            <SearchIcon />
+                          </SvgIcon>
+                        </InputAdornment>
+                      )
+                    }}
+                    placeholder="Buscar"
+                    variant="outlined"
+                    value={context.searchCriteria}
+                    onChange={(e) => {
+                      console.log('cambiado')
+                      context.updateSearchCriteria(e.target.value)
+                      /* setSearchQuery(e.target.value) */
+                    }}
+                    onKeyPress={(event) => {
+                      if (event.key === 'Enter') {
+                        console.log('llendo a context.logSearchCriteria')
+                        context.logSearchCriteria()
+                        /* pistola() */
+                      }
+                    }}
+                  />
+                </Box>
+
+              </CardContent>
+            </Card>
+          )}
+        </Consumer>
+
       </Box>
     </div>
   );
