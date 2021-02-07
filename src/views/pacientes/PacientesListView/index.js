@@ -5,6 +5,7 @@ import {
   makeStyles
 } from '@material-ui/core';
 import Page from 'src/components/Page';
+import Provider from "./Provider";
 import Results from './Results';
 import Toolbar from './Toolbar';
 
@@ -26,10 +27,12 @@ const AnotherListView = () => {
       title="Pacientes"
     >
       <Container maxWidth={false}>
-        <Toolbar />
-        <Box mt={3}>
-          <Results />
-        </Box>
+        <Provider>
+          <Toolbar />
+          <Box mt={3}>
+            <Results />
+          </Box>
+        </Provider>
       </Container>
     </Page>
   );
